@@ -26,8 +26,8 @@ onmessage = function(e) {
     console.log("Keys-only wallet random mnemonic: " + await walletKeys.getMnemonic());
 
     // create a keys-only wallet from mnemonic
-    let mnemonic = "megabyte ghetto syllabus opposite firm january velvet kennel often bugs luggage nucleus volcano fainted ripped biology firm sushi putty swagger dove obedient unnoticed washing swagger";
-    let primaryAddress = "58De3pTCy1CFkh2xwTDCPwiTzkby13CZfJ262vak9nmuSUAbayvYnXaJY7WNGJMJCMBdFn4opqYCrVP3rP3irUZyDMht94C";  // just for reference
+    let mnemonic = "petals frown aerial leisure ruined needed pruned object misery items sober agile lopped galaxy mouth glide business sieve dizzy imitate ritual nucleus chlorine cottage ruined";
+    let primaryAddress = "54tjXUgQVYNXQCJM4CatRQZMacZ2Awq4NboKiUYtUJrhgYZjiDhMz4ccuYRcMTno6V9mzKFXzfY8pbPnGmu2ukfWABV75k4";  // just for reference
     walletKeys = await MoneroWalletKeys.createWalletFromMnemonic(MoneroNetworkType.STAGENET, mnemonic);
     assert.equal(await walletKeys.getMnemonic(), mnemonic);
     assert.equal(await walletKeys.getPrimaryAddress(), primaryAddress);
@@ -49,7 +49,7 @@ onmessage = function(e) {
     // configure the rpc wallet to open or create
     let name = "test_wallet_1";
     let password = "supersecretpassword123";
-    let restoreHeight = 453289;
+    let restoreHeight = 501788;
     
     // open or create rpc wallet
     try {
@@ -85,12 +85,18 @@ onmessage = function(e) {
     assert.equal(await walletCore.getPrimaryAddress(), primaryAddress);
     console.log("Core wallet imported mnemonic: " + await walletKeys.getMnemonic());
     console.log("Core wallet imported address: " + await walletKeys.getPrimaryAddress());
+    
+    // synchronize core wallet, start background syncing with listener
     console.log("Synchronizing core wallet...");
-    await walletCore.sync(new WalletSyncPrinter());
+    await walletCore.sync(new WalletSyncPrinter());               // synchronize and print progress
+    await walletCore.addListener(new WalletSendReceivePrinter()); // listen for and print send/receive notifications
+    await walletCore.startSyncing();                              // synchronize in background
+    
+    // print balance and number of transactions
     console.log("Core wallet balance: " + await walletCore.getBalance());
     console.log("Core wallet number of txs: " + (await walletCore.getTxs()).length);
     
-    // send transaction to self
+    // send transaction to self, listener will notify when output is received
     console.log("Sending transaction");
     let txSet = await walletCore.send(0, await walletCore.getPrimaryAddress(), new BigInteger("75000000000"));
     console.log("Transaction sent successfully");
@@ -103,7 +109,7 @@ onmessage = function(e) {
   /**
    * Print sync progress every X blocks.
    */
-  class WalletSyncPrinter extends MoneroSyncListener {
+  class WalletSyncPrinter extends MoneroWalletListener {
     
     constructor(blockResolution) {
       super();
@@ -114,6 +120,27 @@ onmessage = function(e) {
       if (percentDone === 1 || (startHeight - height) % this.blockResolution === 0) {
         console.log("onSyncProgress(" + height + ", " + startHeight + ", " + endHeight + ", " + percentDone + ", " + message + ")");
       }
+    }
+  }
+  
+  
+  /**
+   * Print sync progress every X blocks.
+   */
+  class WalletSendReceivePrinter extends MoneroWalletListener {
+    
+    constructor(blockResolution) {
+      super();
+    }
+
+    onOutputReceived(output) {
+      console.log("Wallet received output!");
+      console.log(output.toJson());
+    }
+    
+    onOutputSpent(output) {
+      console.log("Wallet spent output!");
+      console.log(output.toJson());
     }
   }
   
