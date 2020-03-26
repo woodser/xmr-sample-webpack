@@ -68,7 +68,7 @@ async function runApp() {
   await wallet.startSyncing();
   
   // start generating transactions
-  let txGenerator = new MoneroTxGenerator(wallet);
+  let txGenerator = new MoneroTxGenerator(daemon, wallet);
   txGenerator.start();
 }
 

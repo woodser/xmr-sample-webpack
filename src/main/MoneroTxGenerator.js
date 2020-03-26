@@ -1,6 +1,6 @@
 
 // configuration
-const MAX_OUTPUTS = 300;        // maximum outputs to create per wallet
+const MAX_AVAILABLE_OUTPUTS = 300;        // maximum outputs to create per wallet
 
 /**
  * Generates transactions on the Monero network using a wallet.
@@ -47,37 +47,61 @@ class MoneroTxGenerator {
 }
 
 async function spendAvailableOutputs(daemon, wallet) {
-  throw new Error("not implemented");
-}
-
-async function spendAvailableOutputsOld(daemon, wallet) {
+  
+  // get available outputs
   let outputs = await wallet.getOutputs({isLocked: false, isSpent: false});
-  console.log("Wallet has " + outputs.length + " available outputs...");
+  
+  // create additional outputs until enough of are available
+  let outputsToCreate = MAX_AVAILABLE_OUTPUTS - outputs.length;
+  console.log(outputsToCreate + " remaining outputs to create");
+  
+  // spend each available output
   for (let output of outputs) {
+    
+    // break if not generating
+    if (!this._isGenerating) break;
+    
+    // get fee with multiplier to be conservative
     let expectedFee = await daemon.getFeeEstimate();
-    expectedFee = expectedFee.multiply(BigInteger.parse("1.2"));  // fee multiplier to conservatively cover fees
-    if (output.getAmount().compare(expectedFee) > 0) {
+    expectedFee = expectedFee.multiply(BigInteger.parse("1.2"));
+    
+    // skip if output is too small to cover fee
+    if (output.getAmount().compare(expectedFee) <= 0) continue;
+    
+    // split output until max available outputs reached
+    if (outputsToCreate > 0) {
       
       // build send request
-      let request = new MoneroSendRequest().setAccountIndex(output.getAccountIndex()).setSubaddressIndex(output.getSubaddressIndex());  // source from output subaddress
-      let amtPerSubaddress = output.getAmount().subtract(expectedFee).divide(new BigInteger(MAX_OUTPUTS_PER_TX - 1));                          // amount to send per subaddress, one output used for change
+      let request = new MoneroSendRequest().setAccountIndex(output.getAccountIndex()).setSubaddressIndex(output.getSubaddressIndex());            // source from output subaddress
+      let numDsts = Math.min(outputsToCreate, MAX_OUTPUTS_PER_TX - 1);
+      let amtPerSubaddress = output.getAmount().subtract(expectedFee).divide(new BigInteger(numDsts));  // amount to send per subaddress, one output used for change
       let dstAccount = output.getAccountIndex() === 0 ? 1 : 0;
       let destinations = [];
-      for (let dstSubaddress = 0; dstSubaddress < MAX_OUTPUTS_PER_TX - 1; dstSubaddress++) {
+      for (let dstSubaddress = 0; dstSubaddress < numDsts; dstSubaddress++) {
         destinations.push(new MoneroDestination((await wallet.getSubaddress(dstAccount, dstSubaddress)).getAddress(), amtPerSubaddress)); // TODO: without getAddress(), obscure optional deref error, prolly from serializing in first step of monero_wallet_core::send_split
       }
       request.setDestinations(destinations);
-      //request.setDoNotRelay(true);
       
       // attempt to send
       try {
         let tx = (await wallet.send(request)).getTxs()[0];
-        console.log("Gonna send tx id: " + tx.getHash());
+        console.log("Sent tx id: " + tx.getHash());
+        outputsToCreate -= numDsts;
       } catch (e) {
         console.log("Error creating tx: " + e.message);
       }
-    } else {
-      //console.log("Output is too small to cover fee");
+    }
+    
+    // otherwise sweep output
+    else {
+      let dstAccount = output.getAccountIndex() === 0 ? 1 : 0;
+      let dstAddress = await wallet.getAddress(dstAccount, 0);
+      try {
+        let tx = await wallet.sweepOutput(dstAddress, output.getKeyImage());
+        console.log("Sweep tx id: " + tx.getHash());
+      } catch (e) {
+        console.log("Error creating tx: " + e.message);
+      }
     }
   }
 }
