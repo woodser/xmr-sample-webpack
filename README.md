@@ -11,3 +11,7 @@ This project is a sample web application using the [monero-javascript](https://g
 6. `npm install`
 7. `./bin/start_dev_browser`
 8. Access web app at http://localhost:9100
+
+<p align="center">
+	<img src="src/mockups/web_wallet_006.png"/>
+</p>
