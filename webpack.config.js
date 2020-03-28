@@ -1,14 +1,8 @@
 const path = require("path");
-//const fileLoader = require("file-loader");
 
 let configBase = {
     module: {
       rules: [
-//        {
-//          test: /\.wasm$/,
-//          loader: "file-loader",
-//          exclude: path.join(__dirname, 'node_modules')
-//        },
         {
           test: /\.js$/,
           exclude: path.join(__dirname, 'node_modules'),
@@ -18,9 +12,6 @@ let configBase = {
               loader: 'babel-loader',
               options: {
                 cacheDirectory: false
-                // ,
-                // presets: [ "es2015" ],
-                // plugins: ["transform-runtime"]
               }
             }
           ]
@@ -51,16 +42,6 @@ let configApp = Object.assign({}, configBase, {
     },
 });
 
-let configTest = Object.assign({}, configBase, {
-  name: "Test config",
-  entry: "./src/tests.js",
-  output: {
-    path: path.resolve(__dirname, "browser_build"),
-    filename: "xmr-sample-tests.js"
-  },
-});
-
 module.exports = [
-  configApp,
-  configTest
+  configApp
 ];
