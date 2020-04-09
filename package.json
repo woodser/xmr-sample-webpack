@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/woodser/monerowebwallet.com#readme",
   "dependencies": {
-    "monero-javascript": "^0.2.10"
+    "monero-javascript": "^0.2.12"
   },
   "devDependencies": {
     "babel-core": "6.26.3",
