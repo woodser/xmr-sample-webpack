@@ -89,7 +89,7 @@ async function runMain() {
   
   // create a core wallet from mnemonic
   let daemonConnection = new MoneroRpcConnection({uri: daemonRpcUri, user: daemonRpcUsername, pass: daemonRpcPassword});
-  let walletCorePath = useFS ? GenUtils.uuidv4() : "";
+  let walletCorePath = useFS ? GenUtils.getUUID() : "";
   console.log("Creating core wallet" + (proxyToWorker ? " in worker" : "") + (useFS ? " at path " + walletCorePath : ""));
   let walletCore = await MoneroWalletCore.createWalletFromMnemonic(walletCorePath, "abctesting123", MoneroNetworkType.STAGENET, mnemonic, daemonConnection, restoreHeight, seedOffset, proxyToWorker, FS); 
   console.log("Core wallet imported mnemonic: " + await walletCore.getMnemonic());
