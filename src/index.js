@@ -25,10 +25,10 @@ async function runMain() {
   console.log("RUN MAIN");
   
   // config
-  let daemonRpcUri = "http://localhost:38081";
+  let daemonRpcUri = "https://localhost:38081";
   let daemonRpcUsername = "superuser";
   let daemonRpcPassword = "abctesting123";
-  let walletRpcUri = "http://localhost:38083";
+  let walletRpcUri = "https://localhost:38083";
   let walletRpcUsername = "rpc_user";
   let walletRpcPassword = "abc123";
   let walletRpcFileName = "test_wallet_1";
