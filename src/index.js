@@ -59,11 +59,11 @@ async function runMain() {
   
   // connect to monero-daemon-rpc on same thread as core wallet so requests from same client to daemon are synced
   console.log("Connecting to monero-daemon-rpc" + (proxyToWorker ? " in worker" : ""));
-  let daemon = await MoneroDaemonRpc.create({uri: daemonRpcUri, user: daemonRpcUsername, pass: daemonRpcPassword, proxyToWorker: proxyToWorker});
+  let daemon = await MoneroDaemonRpc.create({uri: daemonRpcUri, username: daemonRpcUsername, password: daemonRpcPassword, proxyToWorker: proxyToWorker});
   console.log("Daemon height: " + await daemon.getHeight());
   
   // connect to monero-wallet-rpc
-  let walletRpc = new MoneroWalletRpc({uri: walletRpcUri, user: walletRpcUsername, pass: walletRpcPassword});
+  let walletRpc = new MoneroWalletRpc({uri: walletRpcUri, username: walletRpcUsername, password: walletRpcPassword});
   
   // open or create rpc wallet
   try {
@@ -88,10 +88,10 @@ async function runMain() {
   console.log("Wallet rpc balance: " + await walletRpc.getBalance());  // TODO: why does this print digits and not object?
   
   // create a core wallet from mnemonic
-  let daemonConnection = new MoneroRpcConnection({uri: daemonRpcUri, user: daemonRpcUsername, pass: daemonRpcPassword});
+  let daemonConnection = new MoneroRpcConnection({uri: daemonRpcUri, username: daemonRpcUsername, password: daemonRpcPassword});
   let walletCorePath = useFS ? GenUtils.getUUID() : "";
   console.log("Creating core wallet" + (proxyToWorker ? " in worker" : "") + (useFS ? " at path " + walletCorePath : ""));
-  let walletCore = await MoneroWalletCore.createWalletFromMnemonic(walletCorePath, "abctesting123", MoneroNetworkType.STAGENET, mnemonic, daemonConnection, restoreHeight, seedOffset, proxyToWorker, FS); 
+  let walletCore = await MoneroWalletWasm.createWalletFromMnemonic(walletCorePath, "abctesting123", MoneroNetworkType.STAGENET, mnemonic, daemonConnection, restoreHeight, seedOffset, proxyToWorker, FS); 
   console.log("Core wallet imported mnemonic: " + await walletCore.getMnemonic());
   console.log("Core wallet imported address: " + await walletCore.getPrimaryAddress());
   
