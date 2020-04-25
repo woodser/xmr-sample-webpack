@@ -47,7 +47,7 @@ async function runMain() {
   
   // connect to monero-daemon-rpc on same thread as wasm wallet so requests from same client to daemon are synced
   console.log("Connecting to monero-daemon-rpc" + (proxyToWorker ? " in worker" : ""));
-  let daemon = await MoneroDaemonRpc.create({uri: daemonRpcUri, username: daemonRpcUsername, password: daemonRpcPassword, proxyToWorker: proxyToWorker});
+  let daemon = new MoneroDaemonRpc({uri: daemonRpcUri, username: daemonRpcUsername, password: daemonRpcPassword, proxyToWorker: proxyToWorker});
   console.log("Daemon height: " + await daemon.getHeight());
   
   // connect to monero-wallet-rpc
