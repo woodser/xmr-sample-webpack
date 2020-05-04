@@ -4,6 +4,7 @@
   "description": "Client-side Monero web wallet",
   "main": "src/index.js",
   "scripts": {
+    "build_browser_app": "webpack --config ./webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,7 +25,7 @@
   },
   "homepage": "https://github.com/woodser/monerowebwallet.com#readme",
   "dependencies": {
-    "monero-javascript": "^0.2.12"
+    "monero-javascript": "^0.2.14"
   },
   "devDependencies": {
     "babel-core": "6.26.3",
