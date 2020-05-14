@@ -10,7 +10,6 @@ require("monero-javascript");
  */
 runMain();
 async function runMain() {
-  console.log("RUN MAIN");
   
   // config
   let daemonRpcUri = "http://localhost:38081";
@@ -24,7 +23,6 @@ async function runMain() {
   let mnemonic = "goblet went maze cylinder stockpile twofold fewest jaded lurk rally espionage grunt aunt puffin kickoff refer shyness tether building eleven lopped dawn tasked toolbox grunt";
   let seedOffset = "";
   let restoreHeight = 531333;
-  let proxyToWorker = true;   // proxy wasm wallet and daemon to worker so main thread is not blocked (recommended)
   let useFS = true;           // optionally save wallets to an in-memory file system, otherwise use empty paths
   
   // load wasm module on main thread
@@ -48,12 +46,12 @@ async function runMain() {
   console.log("Keys-only wallet random mnemonic: " + await walletKeys.getMnemonic());
   
   // connect to monero-daemon-rpc on same thread as wasm wallet so requests from same client to daemon are synced
-  console.log("Connecting to monero-daemon-rpc" + (proxyToWorker ? " in worker" : ""));
-  let daemon = new MoneroDaemonRpc({uri: daemonRpcUri, username: daemonRpcUsername, password: daemonRpcPassword, proxyToWorker: proxyToWorker});
+  console.log("Connecting to monero-daemon-rpc");
+  let daemon = new MoneroDaemonRpc(daemonRpcUri, daemonRpcUsername, daemonRpcPassword);
   console.log("Daemon height: " + await daemon.getHeight());
   
   // connect to monero-wallet-rpc
-  let walletRpc = new MoneroWalletRpc({uri: walletRpcUri, username: walletRpcUsername, password: walletRpcPassword});
+  let walletRpc = new MoneroWalletRpc(walletRpcUri, walletRpcUsername, walletRpcPassword);
   
   // open or create rpc wallet
   try {
@@ -83,9 +81,9 @@ async function runMain() {
   console.log("Wallet rpc balance: " + await walletRpc.getBalance());  // TODO: why does this print digits and not object?
   
   // create a wasm wallet from mnemonic
-  let daemonConnection = new MoneroRpcConnection({uri: daemonRpcUri, username: daemonRpcUsername, password: daemonRpcPassword});
+  let daemonConnection = new MoneroRpcConnection(daemonRpcUri, daemonRpcUsername, daemonRpcPassword);
   let walletWasmPath = useFS ? GenUtils.getUUID() : "";
-  console.log("Creating WebAssembly wallet" + (proxyToWorker ? " in worker" : "") + (useFS ? " at path " + walletWasmPath : ""));
+  console.log("Creating WebAssembly wallet" + (useFS ? " at path " + walletWasmPath : ""));
   let walletWasm = await MoneroWalletWasm.createWallet({
     path: walletWasmPath,
     password: "abctesting123",
@@ -94,7 +92,6 @@ async function runMain() {
     server: daemonConnection,
     restoreHeight: restoreHeight,
     seedOffset: seedOffset,
-    proxyToWorker: proxyToWorker
   }); 
   console.log("WebAssembly wallet imported mnemonic: " + await walletWasm.getMnemonic());
   console.log("WebAssembly wallet imported address: " + await walletWasm.getPrimaryAddress());
@@ -115,11 +112,13 @@ async function runMain() {
   
   // send transaction to self, listener will notify when output is received
   console.log("Sending transaction to self");
-  let txSet = await walletWasm.sendTx(0, await walletWasm.getPrimaryAddress(), new BigInteger("75000000000"));
-  console.log("Transaction sent successfully.  Should receive notification soon...");
-  console.log("Transaction hash: " + txSet.getTxs()[0].getHash());
-  
-  console.log("EXIT MAIN");
+  let tx = await walletWasm.createTx({
+    accountIndex: 0,
+    address: await walletWasm.getPrimaryAddress(),
+    amount: new BigInteger("75000000000"),
+    relay: true
+  });
+  console.log("Transaction " + tx.getHash() + " sent successfully.  Should receive notification soon...");
 }
 
 /**
