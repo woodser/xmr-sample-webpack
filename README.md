@@ -1,6 +1,6 @@
 ## Description
 
-This project is a sample web application using the [monero-javascript](https://github.com/monero-ecosystem/monero-javascript) library.
+This project contains sample web applications using the [monero-javascript](https://github.com/monero-ecosystem/monero-javascript) library.
 
 ## How to Run in a Browser
 1. Download and install [Monero CLI](https://getmonero.org/downloads/)

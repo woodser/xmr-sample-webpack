@@ -33,15 +33,25 @@ let configBase = {
     context: __dirname
 };
 
-let configApp = Object.assign({}, configBase, {
-    name: "App config",
-    entry: "./src/index.js",
+let configSampleCode = Object.assign({}, configBase, {
+    name: "Sample code",
+    entry: "./src/sample_code.js",
     output: {
       path: path.resolve(__dirname, "browser_build"),
-      filename: "xmr-sample-app.js"
+      filename: "sample_code.dist.js"
     },
 });
 
+let configOfflineWalletGenerator = Object.assign({}, configBase, {
+  name: "Offline wallet generator",
+  entry: "./src/offline_wallet_generator.js",
+  output: {
+    path: path.resolve(__dirname, "browser_build"),
+    filename: "offline_wallet_generator.dist.js"
+  },
+});
+
 module.exports = [
-  configApp
+  configSampleCode,
+  configOfflineWalletGenerator
 ];
