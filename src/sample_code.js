@@ -54,7 +54,6 @@ async function runMain() {
   });
   
   // send funds from RPC wallet to WebAssembly wallet
-  await TestUtils.TX_POOL_WALLET_TRACKER.waitForWalletTxsToClearPool(walletRpc); // *** REMOVE FROM README SAMPLE ***
   let createdTx = await walletRpc.createTx({
     accountIndex: 0,
     address: await walletWasm.getAddress(1, 0),
