@@ -67,6 +67,6 @@ async function runMain() {
   await new Promise(function(resolve) { setTimeout(resolve, 10000); });
   assert(fundsReceived);
   
-  // save and close WebAssembly wallet
-  await walletWasm.close(true);
+  // close WebAssembly wallet
+  await walletWasm.close();
 }
