@@ -57,7 +57,7 @@ async function runMain() {
   let createdTx = await walletRpc.createTx({
     accountIndex: 0,
     address: await walletWasm.getAddress(1, 0),
-    amount: new monerojs.BigInteger("50000"), // amount to transfer in atomic units
+    amount: new monerojs.BigInteger("5000000"), // amount to transfer in atomic units
     relay: false // create transaction and relay to the network if true
   });
   let fee = createdTx.getFee(); // "Are you sure you want to send... ?"
