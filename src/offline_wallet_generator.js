@@ -4,7 +4,7 @@ main();
 async function main() {
   
   // create a random keys-only (offline) stagenet wallet
-  let walletKeys = await monerojs.createWalletKeys({networkType: MoneroNetworkType.STAGENET, language: "English"});
+  let walletKeys = await monerojs.createWalletKeys({networkType: "stagenet", language: "English"});
   
   // Print the wallet's attributes in the browser Window
   document.getElementById("wallet_mnemonic_phrase").innerHTML = "Mnemonic phrase: " + await walletKeys.getMnemonic();
