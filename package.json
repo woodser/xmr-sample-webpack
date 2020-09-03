@@ -1,5 +1,5 @@
 {
-  "name": "monerowebwallet.com",
+  "name": "xmr-sample-app",
   "version": "0.0.3",
   "description": "Client-side Monero web wallet",
   "main": "src/index.js",
@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/woodser/monerowebwallet.com#readme",
   "dependencies": {
-    "monero-javascript": "^0.4.1"
+    "monero-javascript": "^0.4.3"
   },
   "devDependencies": {
     "acorn": "^6.4.1",
