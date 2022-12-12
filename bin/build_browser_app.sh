@@ -8,12 +8,12 @@ rm -r ./browser_build/ || exit 1
 npm run build_browser_app_unix || exit 1
 
 # copy dependencies to browser build
-cp node_modules/monero-javascript/dist/monero_core.js browser_build/monero_core.js
-cp node_modules/monero-javascript/dist/monero_core.wasm browser_build/monero_core.wasm
-cp node_modules/monero-javascript/dist/monero_core_keys.js browser_build/monero_core_keys.js
-cp node_modules/monero-javascript/dist/monero_core_keys.wasm browser_build/monero_core_keys.wasm
-cp node_modules/monero-javascript/dist/MoneroWebWorker.dist.js browser_build/MoneroWebWorker.dist.js
-cp node_modules/monero-javascript/dist/MoneroWebWorker.dist.js.map browser_build/MoneroWebWorker.dist.js.map
+cp node_modules/monero-javascript/dist/monero_wallet_full.js browser_build/monero_wallet_full.js
+cp node_modules/monero-javascript/dist/monero_wallet_full.wasm browser_build/monero_wallet_full.wasm
+cp node_modules/monero-javascript/dist/monero_wallet_keys.js browser_build/monero_wallet_keys.js
+cp node_modules/monero-javascript/dist/monero_wallet_keys.wasm browser_build/monero_wallet_keys.wasm
+cp node_modules/monero-javascript/dist/monero_web_worker.js browser_build/monero_web_worker.js
+cp node_modules/monero-javascript/dist/monero_web_worker.js.map browser_build/monero_web_worker.js.map
 cp -R src/* browser_build/
 
 # start server
