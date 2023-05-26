@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/woodser/xmr-sample-app#readme",
   "dependencies": {
-    "monero-javascript": "^0.7.7"
+    "monero-javascript": "^0.7.9"
   },
   "devDependencies": {
     "acorn": "^6.4.1",
