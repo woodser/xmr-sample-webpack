@@ -22,14 +22,14 @@ async function runMain() {
   let balance = await walletRpc.getBalance();               // 533648366742
   let txs = await walletRpc.getTxs();                       // get transactions containing transfers to/from the wallet
   
-  // create wallet from mnemonic phrase using WebAssembly bindings to monero-project
+  // create wallet from seed phrase using WebAssembly bindings to monero-project
   let walletFull = await monerojs.createWalletFull({
     password: "supersecretpassword123",
     networkType: "stagenet",
     serverUri: "http://localhost:38081",
     serverUsername: "superuser",
     serverPassword: "abctesting123",
-    mnemonic: "hijack lucky rally sober hockey robot gumball amaze gave fifteen organs gecko skater wizard demonstrate upright system vegan tobacco tsunami lurk withdrawn tomorrow uphill organs",
+    seed: "hijack lucky rally sober hockey robot gumball amaze gave fifteen organs gecko skater wizard demonstrate upright system vegan tobacco tsunami lurk withdrawn tomorrow uphill organs",
     restoreHeight: 589429
   });
   
