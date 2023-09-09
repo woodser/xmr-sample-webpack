@@ -9,5 +9,8 @@ This project contains sample web applications using the [monero-javascript](http
 4. `git clone https://github.com/woodser/xmr-sample-app`
 5. `cd xmr-sample-app`
 6. `npm install`
-7. `./bin/build_browser_app.sh`
-8. Access web app at http://localhost:9100
+7. If using Node.js >16, set OpenSSL legacy provider:
+    Unix: `export NODE_OPTIONS=--openssl-legacy-provider``
+    Windows: `set NODE_OPTIONS=--openssl-legacy-provider``
+8. `./bin/build_browser_app.sh`
+9. Access web app at http://localhost:9100
