@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require('webpack')
 
 let configBase = {
+    mode: 'production',
     module: {
       rules: [
         {
@@ -17,7 +18,11 @@ let configBase = {
               }
             }
           ]
-        }
+        }, {
+          test: /\.ts$/,
+          use: 'ts-loader',
+          exclude: /node_modules/,
+        },
       ]
     },
     devtool: 'source-map',
@@ -32,7 +37,7 @@ let configBase = {
       alias: {
         "fs": "html5-fs"
       },
-      extensions: ['.js', '.jsx', '.css', '.json', 'otf', 'ttf', 'eot', 'svg'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.css', '.json', 'otf', 'ttf', 'eot', 'svg'],
       modules: [
         'node_modules'
       ],
@@ -68,7 +73,7 @@ let configBase = {
 
 let configSampleCode = Object.assign({}, configBase, {
     name: "Sample code",
-    entry: "./src/sample_code.js",
+    entry: "./src/sample_code.ts",
     output: {
       path: path.resolve(__dirname, "browser_build"),
       filename: "sample_code.dist.js"
@@ -77,7 +82,7 @@ let configSampleCode = Object.assign({}, configBase, {
 
 let configOfflineWalletGenerator = Object.assign({}, configBase, {
   name: "Offline wallet generator",
-  entry: "./src/offline_wallet_generator.js",
+  entry: "./src/offline_wallet_generator.ts",
   output: {
     path: path.resolve(__dirname, "browser_build"),
     filename: "offline_wallet_generator.dist.js"
