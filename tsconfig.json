@@ -7,8 +7,7 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "isolatedModules": true,
-        "types": ["node"],
-        "typeRoots": ["./node_modules/@types"]
+        "types": ["node"]
     },
     "include": ["src/**/*"],
     "exclude": ["src/test/**", "node_modules", "dist/*", "types"]
