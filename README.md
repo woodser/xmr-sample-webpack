@@ -10,7 +10,7 @@ This project contains sample web applications using the [monero-ts](https://gith
 5. `cd xmr-sample-app`
 6. `npm install`
 7. If using Node.js >16, set OpenSSL legacy provider:
-    Unix: `export NODE_OPTIONS=--openssl-legacy-provider``
-    Windows: `set NODE_OPTIONS=--openssl-legacy-provider``
+    Unix: `export NODE_OPTIONS=--openssl-legacy-provider`
+    Windows: `set NODE_OPTIONS=--openssl-legacy-provider`
 8. `./bin/build_browser_app.sh`
 9. Access web app at http://localhost:9100
