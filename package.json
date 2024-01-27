@@ -1,6 +1,6 @@
 {
   "name": "xmr-sample-app",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Sample web app using monero-ts",
   "main": "src/index.js",
   "scripts": {
@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/woodser/xmr-sample-app#readme",
   "dependencies": {
-    "monero-ts": "0.9.5"
+    "monero-ts": "0.9.6"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.22.15",
