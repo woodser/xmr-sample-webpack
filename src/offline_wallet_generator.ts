@@ -1,4 +1,4 @@
-import * as moneroTs from "monero-ts";
+import moneroTs from "monero-ts";
 
 main();
 async function main() {

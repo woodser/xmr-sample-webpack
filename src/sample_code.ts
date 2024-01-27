@@ -1,5 +1,5 @@
 import assert from "assert";
-import * as moneroTs from "monero-ts";
+import moneroTs from "monero-ts";
 
 /**
  * Sample code using monero-ts.
