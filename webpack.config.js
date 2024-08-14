@@ -35,7 +35,7 @@ let configBase = {
     ],
     resolve: {
       alias: {
-        "fs": "html5-fs"
+        "fs": "memfs"
       },
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.css', '.json', 'otf', 'ttf', 'eot', 'svg'],
       modules: [
