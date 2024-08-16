@@ -1,6 +1,6 @@
 {
-  "name": "xmr-sample-app",
-  "version": "0.0.6",
+  "name": "xmr-sample-webpack",
+  "version": "0.0.7",
   "description": "Sample web app using monero-ts",
   "main": "src/index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/woodser/xmr-sample-app.git"
+    "url": "git+https://github.com/woodser/xmr-sample-webpack.git"
   },
   "keywords": [
     "xmr",
@@ -22,11 +22,11 @@
   "author": "woodser",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/woodser/xmr-sample-app/issues"
+    "url": "https://github.com/woodser/xmr-sample-webpack/issues"
   },
-  "homepage": "https://github.com/woodser/xmr-sample-app#readme",
+  "homepage": "https://github.com/woodser/xmr-sample-webpack#readme",
   "dependencies": {
-    "monero-ts": "0.9.9"
+    "monero-ts": "^0.10.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.22.15",
