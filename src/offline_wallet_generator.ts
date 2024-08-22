@@ -12,7 +12,12 @@ async function main() {
   let myNum: number = 0;
 
   let manager = new moneroTs.MoneroConnectionManager();
-  await manager.setConnection("http://localhost:38081");
+  await manager.setConnection({
+    uri: "http://localhost:28081",
+    username: "superuser",
+    password: "abctesting123"
+  });
+  await manager.checkConnections();
   console.log("Connection: " + manager.getConnection());
 
   let seed = await walletKeys.getSeed();

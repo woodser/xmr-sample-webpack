@@ -9,7 +9,7 @@ async function runMain() {
   
   // connect to a daemon
   console.log("Connecting to daemon");
-  let daemon = await moneroTs.connectToDaemonRpc("http://localhost:28081");
+  let daemon = await moneroTs.connectToDaemonRpc("http://localhost:28081", "superuser", "abctesting123");
   let height = await daemon.getHeight();            // 1523651
   let feeEstimate = await daemon.getFeeEstimate();  // 1014313512
   let txsInPool = await daemon.getTxPool();         // get transactions in the pool
