@@ -26,7 +26,8 @@
   },
   "homepage": "https://github.com/woodser/xmr-sample-webpack#readme",
   "dependencies": {
-    "monero-ts": "^0.10.1"
+    "monero-ts": "^0.10.3",
+    "memfs": "^4.2.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.22.15",
@@ -42,7 +43,6 @@
     "electron": "^26.2.0",
     "eslint": "8.49.0",
     "https-browserify": "^1.0.0",
-    "memfs": "^4.2.1",
     "minimist": "^1.2.8",
     "mocha": "^10.2.0",
     "os-browserify": "^0.3.0",
