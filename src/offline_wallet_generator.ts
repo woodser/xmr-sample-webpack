@@ -1,5 +1,8 @@
 import moneroTs from "monero-ts";
 
+// set worker loader if not copied to public directory
+//moneroTs.LibraryUtils.setWorkerLoader(() => new Worker(new URL("monero-ts/dist/monero.worker.js", import.meta.url)));
+
 main();
 async function main() {
 
